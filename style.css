@@ -9,8 +9,7 @@
 }
 
 body {
-  background: url("img/background.jpg");
-  /* background: #333; */
+  background: #222;
 }
 
 .container {
@@ -36,7 +35,7 @@ body {
   border-radius: 8px;
   height: 40px;
   padding: 0 15px;
-  background: rgba(34, 32, 33, 0.8);
+  background: #555;
   color: #d2d2d2;
   font-size: 18px;
   float: right;
@@ -59,15 +58,13 @@ body {
 }
 
 .tasks {
+  display: flex;
+  align-items: center;
   background: #f2f2f2;
   box-shadow: 1px 4px 10px rgba(0, 0, 0, 0.2);
   border-radius: 8px;
-  padding: 16px;
+  padding: 8px;
   margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
 }
 
 img {
@@ -82,17 +79,22 @@ img {
 }
 
 .done {
-  background: #333;
+  background: #555;
   color: #d2d2d2;
   text-decoration: line-through;
 }
 
-.task-content p {
-  margin: 0;
+.task-content a {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 5px 10px;
+  text-decoration: none;
+  text-transform: capitalize;
 }
 
 .task-timeDate {
   font-size: 12px;
+  margin-top: 8px;
 }
 
 .priority-task {
@@ -130,7 +132,6 @@ img {
   text-align: center;
   font-size: 18px;
   color: #f2f2f2;
-  border-top: 1px solid #333;
 }
 
 .prioridade {
@@ -138,15 +139,13 @@ img {
   font-size: 12px;
   border-radius: 8px;
   padding: 2px 6px;
-  text-decoration: capitalize;
+  text-decoration: none;
   color: #fff;
 }
 
 .task-content {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  gap: 4px;
+  display: inline-block;
+  padding: 16px;
 }
 
 .titulo {
@@ -155,7 +154,7 @@ img {
   align-items: center;
   color: #d2d2d2;
   text-decoration: line-through;
-  font-size: 3rem;
-  font-weight: 600;
+  font-size: 4rem;
+  font-weight: 400;
   margin-top: 80px;
 }

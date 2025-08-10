@@ -37,11 +37,12 @@ function showTask() {
         }" alt="check" onclick="taskComplete(${index})">
         <div class="task-content">
           <p>${item.task}</p>
-          <p class="prioridade priority ${item.priority}">Prioridade: ${
+          <a class="prioridade priority ${item.priority}">Prioridade: ${
       item.priority
-    }</p>
+    }</a>
           <p class="task-timeDate">${item.time} - ${item.date}</p>
         </div>
+        <img src="img/editV1.svg" alt="edit" onclick = "editTask(${index})">
         <img src="img/trashV1.svg" alt="trash" onclick = "deleteItem(${index})">
       </li>
       `;
@@ -66,6 +67,14 @@ function taskComplete(index) {
   myListItens[index].complete = !myListItens[index].complete;
 
   showTask();
+}
+
+function editTask(index) {
+  const newText = prompt("Edite a tarefa:", myListItens[index].task);
+  if (newText && newText.trim() !== "") {
+    myListItens[index].task = newText.trim();
+    showTask();
+  }
 }
 
 function deleteItem(index) {
