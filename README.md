@@ -8,4 +8,4 @@ Aplicação web com as seguintes funcionalidades
 * ☑️ Checkbox para tarefas concluídas
 * 🎨 Interface responsiva, com visual limpo e organizado
 
-### Desenvolvido com HTML, CSS e JavaScript puto, sem frameworks, como prática de front-end focada em lógica, manipulação do DOM e design funcional.
+### Desenvolvido com HTML, CSS e JavaScript puro, sem frameworks, como prática de front-end focada em lógica, manipulação do DOM e design funcional.
