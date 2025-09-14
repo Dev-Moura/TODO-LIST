@@ -21,10 +21,12 @@ Um gerenciador de tarefas moderno, desenvolvido com **React** e **Material UI**,
 ## 🖼️ Demo
 
 ![Exemplo de tela](https://user-images.githubusercontent.com/seu-usuario/demo-todo.png)  
+
 ![foto-1](assets/img/photo1.png)
 ![foto-2](assets/img/photo2.png)
 ![foto-3](assets/img/photodark1.png)
 ![foto-4](assets/img/photodark2.png)
+
 
 ---
 
