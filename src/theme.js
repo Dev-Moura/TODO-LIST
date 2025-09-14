@@ -1,5 +1,3 @@
-import { BorderBottom, BorderColor } from "@mui/icons-material";
-import { colors } from "@mui/material";
 import { createTheme } from "@mui/material/styles";
 
 const primaryMain = "#006060";
