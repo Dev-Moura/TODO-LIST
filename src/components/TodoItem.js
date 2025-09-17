@@ -27,13 +27,12 @@ function TodoItem({ todo, toggleTodo, deleteTodo, updateTodo }) {
   const handleClose = () => setOpen(false);
 
   const priorityColor = {
-    Alta: "#ff6a70",
-    Média: "#ffc067",
-    Baixa: "#80d8ff",
+    Imediato: "#ff6a70",
+    Urgente: "#ffc067",
+    Normal: "#80d8ff",
   }[todo.Priority];
 
   const handleDelete = () => {
-    console.log("deletando tarefa com ID", todo.id);
     deleteTodo(todo.id);
     handleClose();
   };
@@ -75,11 +74,12 @@ function TodoItem({ todo, toggleTodo, deleteTodo, updateTodo }) {
 
         <ListItemText
           primary={todo.text}
-          secondary={`Categoria: ${todo.Category} | Prioridade: ${todo.Priority} |
+          secondary={`Descrição: ${todo.Description}
+Prioridade: ${todo.Priority}
 Adicionado em ${createdAtText}`}
           sx={{
             textDecoration: todo.completed ? "line-through" : "none",
-            color: todo.completed ? "gray" : "inherit",
+            color: todo.completed ? "black" : "inherit",
             wordBreak: "break-word",
             whiteSpace: "pre-wrap",
             overflowWrap: "break-word",
@@ -98,8 +98,6 @@ Adicionado em ${createdAtText}`}
             Deletar
           </Button>
         </DialogActions>
-
-        {/* Campo de editar task */}
       </Dialog>
       <Dialog open={openEdit} onClose={() => setOpenEdit(false)}>
         <DialogTitle>Editar tarefa</DialogTitle>
@@ -120,7 +118,7 @@ Adicionado em ${createdAtText}`}
           <Button
             onClick={() => {
               if (editValue.trim()) {
-                updateTodo(todo.id, editValue.trim()); // prop
+                updateTodo(todo.id, editValue.trim());
                 setOpenEdit(false);
               }
             }}

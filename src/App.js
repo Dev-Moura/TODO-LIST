@@ -6,8 +6,14 @@ import {
   Typography,
   TextField,
   Button,
+  Box,
   List,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogActions,
 } from "@mui/material";
+import Footer from "./components/footer/Footer";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import { ThemeProvider } from "@mui/material/styles";
@@ -19,9 +25,13 @@ const STORAGE_KEY = "todo_app_v1";
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
+  const [Description, setDescription] = useState("");
+  const [Priority, setPriority] = useState("Normal");
 
-  const [filterCategory, setFilterCategory] = useState("Todas");
-  const [filterPriority, setFilterPriority] = useState("Todas");
+  const [newTask, setNewTask] = useState(false);
+
+  const handleOpenTask = () => setNewTask(true);
+  const handleCloseTask = () => setNewTask(false);
 
   const [todos, setTodos] = useState(() => {
     try {
@@ -34,18 +44,6 @@ function App() {
     }
   });
   const [text, setText] = useState("");
-
-  const filteredTodos = todos
-    .filter(
-      (todo) => filterCategory === "Todas" || todo.Category === filterCategory
-    )
-    .filter(
-      (todo) => filterPriority === "Todas" || todo.Priority === filterPriority
-    )
-    .sort((a, b) => {
-      const map = { Alta: 3, Média: 2, Baixa: 1 };
-      return map[b.Priority] - map[a.Priority];
-    });
 
   useEffect(() => {
     try {
@@ -74,11 +72,13 @@ function App() {
       text: text.trim(),
       completed: false,
       createdAt: new Date().toISOString(),
-      Category: filterCategory === "Todas" ? "Pessoal" : filterCategory,
-      Priority: filterPriority === "Todas" ? "Média" : filterPriority,
+      Description: Description,
+      Priority: Priority,
     };
     setTodos((prev) => [newTodo, ...prev]);
     setText("");
+    setDescription("");
+    setPriority("Normal");
   };
 
   const updateTodo = (id, newText) => {
@@ -97,6 +97,9 @@ function App() {
     setTodos((prev) => prev.filter((t) => t.id !== id));
   };
 
+  const pendingTodos = todos.filter((todo) => !todo.completed);
+  const completedTodos = todos.filter((todo) => todo.completed);
+
   return (
     <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
       <CssBaseline />
@@ -112,65 +115,96 @@ function App() {
             {darkMode ? <Brightness7Icon /> : <Brightness4Icon />}
           </IconButton>
         </div>
-
         <Typography variant="h4" color="primary" gutterBottom>
           To-Do
         </Typography>
+        <Dialog open={newTask} onClose={handleCloseTask} fullWidth>
+          <DialogTitle>Descreva sua tarefa</DialogTitle>
+          <DialogContent>
+            <TextField
+              fullWidth
+              label="Título da Tarefa"
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              sx={{ mt: 2 }}
+            />
 
-        <TextField
-          select
-          label="Categoria"
-          value={filterCategory}
-          onChange={(e) => setFilterCategory(e.target.value)}
-          SelectProps={{ native: true }}
-          sx={{ mr: 2, width: 150, marginBottom: 2 }}
-        >
-          <option value="Todas">Todas</option>
-          <option value="Pessoal">Pessoal</option>
-          <option value="Trabalho">Trabalho</option>
-          <option value="Estudos">Estudos</option>
-        </TextField>
+            <TextField
+              fullWidth
+              multiline
+              rows={3}
+              label="Descrição"
+              value={Description}
+              onChange={(e) => setDescription(e.target.value)}
+              sx={{ mt: 2 }}
+            />
 
-        <TextField
-          select
-          label="Prioridade"
-          value={filterPriority}
-          onChange={(e) => setFilterPriority(e.target.value)}
-          SelectProps={{ native: true }}
-          sx={{ mr: 2, width: 150, marginBottom: 2 }}
-        >
-          <option value="Todas">Todas</option>
-          <option value="Baixa">Baixa</option>
-          <option value="Média">Média</option>
-          <option value="Alta">Alta</option>
-        </TextField>
-
-        <TextField
-          fullWidth
-          label="Nova tarefa"
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          onKeyPress={(e) => e.key === "Enter" && addTodo()}
-        />
-
+            <TextField
+              select
+              fullWidth
+              label="Prioridade"
+              value={Priority}
+              onChange={(e) => setPriority(e.target.value)}
+              SelectProps={{ native: true }}
+              sx={{ mt: 2 }}
+            >
+              <option value="Normal">Normal</option>
+              <option value="Urgente">Urgente</option>
+              <option value="Imediato">Imediato</option>
+            </TextField>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseTask}>Cancelar</Button>
+            <Button
+              onClick={() => {
+                addTodo();
+                handleCloseTask();
+              }}
+              variant="contained"
+            >
+              Adicionar
+            </Button>
+          </DialogActions>
+        </Dialog>
         <Button
           variant="contained"
           color="primary"
-          onClick={addTodo}
-          sx={{ mt: 2, mb: 2 }}
+          onClick={handleOpenTask}
+          sx={{ mb: 2 }}
         >
-          Adicionar
+          Nova Tarefa
         </Button>
-
         <List>
           <TodoList
-            todos={filteredTodos}
+            todos={pendingTodos}
             toggleTodo={toggleTodo}
             deleteTodo={deleteTodo}
             updateTodo={updateTodo}
           />
         </List>
+
+        {completedTodos.length > 0 && (
+          <Box
+            sx={{
+              mt: 4,
+              p: 2,
+              border: "1px solid #ccc",
+              borderRadius: 2,
+            }}
+          >
+            <Typography variant="h6" color="primary" gutterBottom>
+              Tarefas Concluídas
+            </Typography>
+            <TodoList
+              todos={completedTodos}
+              toggleTodo={toggleTodo}
+              deleteTodo={deleteTodo}
+              updateTodo={updateTodo}
+            />
+          </Box>
+        )}
       </Container>
+      <Footer />
     </ThemeProvider>
   );
 }
