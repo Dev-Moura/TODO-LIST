@@ -36,35 +36,11 @@ export const darkTheme = createTheme({
       paper: "#363636",
     },
     text: {
-      primary: "#000",
-      secondary: "#000",
+      primary: secondaryMain,
+      secondary: secondaryMain,
     },
-  },
-  components: {
-    MuiButton: {
-      styleOverrides: {
-        root: {
-          textTransform: "none",
-          borderRadius: 8,
-        },
-      },
-    },
-    MuiTextField: {
-      styleOverrides: {
-        root: {
-          "& label.Mui-focused": {
-            color: primaryMain,
-          },
-          "& MuiInput-underline:after": {
-            BorderBottomColor: primaryMain,
-          },
-          "& .MuiOutLinedInput-root: ": {
-            "&.Mui-focused fieldset": {
-              BorderColor: primaryMain,
-            },
-          },
-        },
-      },
+    typography: {
+      fontFamily: "Metrophonic, sans-serif",
     },
   },
 });

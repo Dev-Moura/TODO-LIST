@@ -14,6 +14,7 @@ import {
   DialogActions,
 } from "@mui/material";
 import Footer from "./components/footer/Footer";
+import Header from "./components/header/Header";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import { ThemeProvider } from "@mui/material/styles";
@@ -103,6 +104,7 @@ function App() {
   return (
     <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
       <CssBaseline />
+      <Header />
       <Container maxWidth="sm" sx={{ mt: 5 }}>
         <div
           style={{
@@ -116,7 +118,7 @@ function App() {
           </IconButton>
         </div>
         <Typography variant="h4" color="primary" gutterBottom>
-          To-Do
+          Suas Tarefas
         </Typography>
         <Dialog open={newTask} onClose={handleCloseTask} fullWidth>
           <DialogTitle>Descreva sua tarefa</DialogTitle>
@@ -192,7 +194,7 @@ function App() {
               borderRadius: 2,
             }}
           >
-            <Typography variant="h6" color="primary" gutterBottom>
+            <Typography variant="h4" color="primary" gutterBottom>
               Tarefas Concluídas
             </Typography>
             <TodoList
