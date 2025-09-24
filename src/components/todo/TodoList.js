@@ -2,7 +2,13 @@ import React from "react";
 import { List } from "@mui/material";
 import TodoItem from "./TodoItem";
 
-function TodoList({ todos, toggleTodo, deleteTodo, updateTodo }) {
+function TodoList({
+  todos,
+  toggleTodo,
+  deleteTodo,
+  updateTodo,
+  filteredTodos,
+}) {
   return (
     <List>
       {todos.map((todo) => (
@@ -12,6 +18,7 @@ function TodoList({ todos, toggleTodo, deleteTodo, updateTodo }) {
           toggleTodo={toggleTodo}
           deleteTodo={deleteTodo}
           updateTodo={updateTodo}
+          filteredTodos={filteredTodos}
         />
       ))}
     </List>

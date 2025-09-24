@@ -4,7 +4,7 @@ import { AppBar, Toolbar, Typography, Box } from "@mui/material";
 function Header() {
   return (
     <AppBar position="static">
-      <Toolbar sx={{ bgcolor: "#006060" }}>
+      <Toolbar>
         <Box component="header" sx={{ mr: 2 }} />
         <Typography variant="h4" component="div" sx={{ flexGrow: 1 }}>
           To-Do List

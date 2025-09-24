@@ -3,6 +3,9 @@ import { createTheme } from "@mui/material/styles";
 const primaryMain = "#006060";
 const secondaryMain = "#f5f5f5";
 
+const primaryDark = "#1d1d1d";
+const secondaryDark = "#909090";
+
 export const lightTheme = createTheme({
   palette: {
     mode: "light",
@@ -14,7 +17,11 @@ export const lightTheme = createTheme({
     },
     background: {
       default: "#f5f5f5",
-      paper: "#fff",
+      paper: primaryMain,
+    },
+    text: {
+      primary: primaryMain,
+      secondary: primaryMain,
     },
   },
   typography: {
@@ -26,18 +33,18 @@ export const darkTheme = createTheme({
   palette: {
     mode: "dark",
     primary: {
-      main: primaryMain,
+      main: secondaryDark,
     },
     secondary: {
-      main: secondaryMain,
+      main: secondaryDark,
     },
     background: {
-      default: "#363636",
+      default: primaryDark,
       paper: "#363636",
     },
     text: {
-      primary: secondaryMain,
-      secondary: secondaryMain,
+      primary: primaryDark,
+      secondary: primaryDark,
     },
     typography: {
       fontFamily: "Metrophonic, sans-serif",

@@ -1,38 +1,32 @@
 import React, { useEffect, useState } from "react";
 import {
   CssBaseline,
-  IconButton,
   Container,
   Typography,
-  TextField,
   Button,
   Box,
   List,
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  DialogActions,
+  TextField,
 } from "@mui/material";
 import Footer from "./components/footer/Footer";
 import Header from "./components/header/Header";
-import Brightness7Icon from "@mui/icons-material/Brightness7";
-import Brightness4Icon from "@mui/icons-material/Brightness4";
 import { ThemeProvider } from "@mui/material/styles";
-
 import { lightTheme, darkTheme } from "./theme";
-import TodoList from "./components/TodoList";
+import TodoList from "./components/todo/TodoList";
+import AddTaskDialog from "./components/todo/AddTaskDialog.jsx";
+import ThemeToggle from "./components/themeToggle.jsx";
 
 const STORAGE_KEY = "todo_app_v1";
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
-  const [Description, setDescription] = useState("");
+
   const [Priority, setPriority] = useState("Normal");
 
-  const [newTask, setNewTask] = useState(false);
+  const [Description, setDescription] = useState("");
 
-  const handleOpenTask = () => setNewTask(true);
-  const handleCloseTask = () => setNewTask(false);
+  const [newTask, setNewTask] = useState(false);
+  const [text, setText] = useState("");
 
   const [todos, setTodos] = useState(() => {
     try {
@@ -44,7 +38,9 @@ function App() {
       return [];
     }
   });
-  const [text, setText] = useState("");
+
+  const handleOpenTask = () => setNewTask(true);
+  const handleCloseTask = () => setNewTask(false);
 
   useEffect(() => {
     try {
@@ -73,8 +69,8 @@ function App() {
       text: text.trim(),
       completed: false,
       createdAt: new Date().toISOString(),
-      Description: Description,
-      Priority: Priority,
+      Description,
+      Priority,
     };
     setTodos((prev) => [newTodo, ...prev]);
     setText("");
@@ -82,9 +78,13 @@ function App() {
     setPriority("Normal");
   };
 
-  const updateTodo = (id, newText) => {
+  const updateTodo = (id, newTitle, newDescription) => {
     setTodos((prev) =>
-      prev.map((todo) => (todo.id === id ? { ...todo, text: newText } : todo))
+      prev.map((todo) =>
+        todo.id === id
+          ? { ...todo, text: newTitle, Description: newDescription }
+          : todo
+      )
     );
   };
 
@@ -101,112 +101,95 @@ function App() {
   const pendingTodos = todos.filter((todo) => !todo.completed);
   const completedTodos = todos.filter((todo) => todo.completed);
 
+  const [priorityFilter, setPriorityFilter] = useState("Todas");
+  const filteredTodos = pendingTodos.filter((todo) => {
+    if (priorityFilter === "Todas") return true;
+    return todo.Priority === priorityFilter;
+  });
   return (
     <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
-      <CssBaseline />
-      <Header />
-      <Container maxWidth="sm" sx={{ mt: 5 }}>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            padding: "10px",
-          }}
-        >
-          <IconButton onClick={() => setDarkMode(!darkMode)} color="inherit">
-            {darkMode ? <Brightness7Icon /> : <Brightness4Icon />}
-          </IconButton>
-        </div>
-        <Typography variant="h4" color="primary" gutterBottom>
-          Suas Tarefas
-        </Typography>
-        <Dialog open={newTask} onClose={handleCloseTask} fullWidth>
-          <DialogTitle>Descreva sua tarefa</DialogTitle>
-          <DialogContent>
-            <TextField
-              fullWidth
-              label="Título da Tarefa"
-              value={text}
-              onChange={(e) => setText(e.target.value)}
-              sx={{ mt: 2 }}
-            />
-
-            <TextField
-              fullWidth
-              multiline
-              rows={3}
-              label="Descrição"
-              value={Description}
-              onChange={(e) => setDescription(e.target.value)}
-              sx={{ mt: 2 }}
-            />
+      <Box
+        sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}
+      >
+        <CssBaseline />
+        <Header />
+        <Container maxWidth="lg" sx={{ mt: 5, flex: 1 }}>
+          <ThemeToggle darkMode={darkMode} setDarkMode={setDarkMode} />
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              mt: 2,
+            }}
+          >
+            <Typography variant="h4" color="primary">
+              Suas Tarefas
+            </Typography>
 
             <TextField
               select
-              fullWidth
-              label="Prioridade"
-              value={Priority}
-              onChange={(e) => setPriority(e.target.value)}
+              label="Filtrar prioridade"
+              value={priorityFilter}
+              onChange={(e) => setPriorityFilter(e.target.value)}
               SelectProps={{ native: true }}
-              sx={{ mt: 2 }}
+              size="small"
             >
+              <option value="Todas">Todas</option>
               <option value="Normal">Normal</option>
               <option value="Urgente">Urgente</option>
               <option value="Imediato">Imediato</option>
             </TextField>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleCloseTask}>Cancelar</Button>
-            <Button
-              onClick={() => {
-                addTodo();
-                handleCloseTask();
-              }}
-              variant="contained"
-            >
-              Adicionar
-            </Button>
-          </DialogActions>
-        </Dialog>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handleOpenTask}
-          sx={{ mb: 2 }}
-        >
-          Nova Tarefa
-        </Button>
-        <List>
-          <TodoList
-            todos={pendingTodos}
-            toggleTodo={toggleTodo}
-            deleteTodo={deleteTodo}
-            updateTodo={updateTodo}
-          />
-        </List>
+          </Box>
 
-        {completedTodos.length > 0 && (
-          <Box
-            sx={{
-              mt: 4,
-              p: 2,
-              border: "1px solid #ccc",
-              borderRadius: 2,
-            }}
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleOpenTask}
+            sx={{ mt: 5 }}
           >
-            <Typography variant="h4" color="primary" gutterBottom>
-              Tarefas Concluídas
-            </Typography>
+            Nova Tarefa
+          </Button>
+
+          <AddTaskDialog
+            open={newTask}
+            onClose={handleCloseTask}
+            text={text}
+            setText={setText}
+            description={Description}
+            setDescription={setDescription}
+            priority={Priority}
+            setPriority={setPriority}
+            onAdd={addTodo}
+          />
+
+          <List>
             <TodoList
-              todos={completedTodos}
+              todos={filteredTodos}
               toggleTodo={toggleTodo}
               deleteTodo={deleteTodo}
               updateTodo={updateTodo}
             />
-          </Box>
-        )}
-      </Container>
-      <Footer />
+          </List>
+
+          {completedTodos.length > 0 && (
+            <Box
+              sx={{ mt: 4, p: 2, border: "1px solid #ccc", borderRadius: 2 }}
+            >
+              <Typography variant="h4" color="primary" gutterBottom>
+                Tarefas Concluídas
+              </Typography>
+              <TodoList
+                todos={completedTodos}
+                toggleTodo={toggleTodo}
+                deleteTodo={deleteTodo}
+                updateTodo={updateTodo}
+              />
+            </Box>
+          )}
+        </Container>
+        <Footer />
+      </Box>
     </ThemeProvider>
   );
 }
