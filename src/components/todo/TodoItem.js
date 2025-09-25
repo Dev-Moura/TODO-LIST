@@ -16,6 +16,7 @@ import {
 import { useTheme } from "@mui/material/styles";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import { ThemeProvider } from "@mui/material/styles";
 
 function TodoItem({ todo, toggleTodo, deleteTodo, updateTodo }) {
   const [openDelete, setOpenDelete] = useState(false);
@@ -42,8 +43,6 @@ function TodoItem({ todo, toggleTodo, deleteTodo, updateTodo }) {
     deleteTodo(todo.id);
     setOpenDelete(false);
   };
-  // const handleOpen = () => setOpen(true);
-  // const handleClose = () => setOpen(false);
 
   const createdAtText = todo.createdAt
     ? new Date(todo.createdAt).toLocaleString("pt-BR")
@@ -86,6 +85,10 @@ function TodoItem({ todo, toggleTodo, deleteTodo, updateTodo }) {
 Prioridade: ${todo.Priority}
 Adicionado em ${createdAtText}`}
           sx={{
+            "& .MuiListItemText-primary": {
+              fontSize: "1.4rem",
+              fontWeight: "bold",
+            },
             textDecoration: todo.completed ? "line-through" : "none",
             color: todo.completed
               ? theme.palette.text.disabled
@@ -103,9 +106,18 @@ Adicionado em ${createdAtText}`}
       </ListItem>
 
       <Dialog open={openDelete} onClose={() => setOpenDelete(false)}>
-        <DialogTitle>Excluir tarefa recorrente</DialogTitle>
-        <DialogContent>Você quer mesmo excluir está tarefa</DialogContent>
-        <DialogActions>
+        <DialogTitle
+          sx={{
+            bgcolor: theme.palette.primary.dark,
+            color: "#f5f5f5",
+          }}
+        >
+          Excluir tarefa recorrente
+        </DialogTitle>
+        <DialogContent sx={{ bgcolor: "#f5f5f5" }}>
+          Você quer mesmo excluir está tarefa
+        </DialogContent>
+        <DialogActions sx={{ bgcolor: "#f5f5f5" }}>
           <Button
             onClick={() => setOpenDelete(false)}
             color="primary"
@@ -119,8 +131,12 @@ Adicionado em ${createdAtText}`}
         </DialogActions>
       </Dialog>
       <Dialog open={openEdit} onClose={() => setOpenEdit(false)}>
-        <DialogTitle>Editar tarefa</DialogTitle>
-        <DialogContent>
+        <DialogTitle
+          sx={{ bgcolor: theme.palette.primary.dark, color: "#f5f5f5" }}
+        >
+          Editar tarefa
+        </DialogTitle>
+        <DialogContent sx={{ bgcolor: "#f5f5f5" }}>
           <TextField
             fullWidth
             label="Título da Tarefa"
@@ -138,7 +154,7 @@ Adicionado em ${createdAtText}`}
             sx={{ mt: 2 }}
           />
         </DialogContent>
-        <DialogActions>
+        <DialogActions sx={{ bgcolor: "#f5f5f5" }}>
           <Button
             onClick={() => setOpenEdit(false)}
             sx={{

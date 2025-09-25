@@ -1,5 +1,6 @@
 import React from "react";
-import { Box, Typography, useTheme } from "@mui/material";
+import { Box, Typography } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 
 function Footer() {
   const theme = useTheme();
@@ -9,7 +10,7 @@ function Footer() {
       sx={{
         py: 2,
         textAlign: "center",
-        bgcolor: theme.palette.background.paper,
+        bgcolor: theme.palette.primary.dark,
         borderTop: "1px solid",
         borderColor: "divider",
       }}
