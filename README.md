@@ -4,11 +4,11 @@ Listo é uma aplicação web de lista de tarefas inspirada no **Google Tasks**, 
 
 > **Listo** significa "pronto" em espanhol/italiano — o objetivo é te ajudar a chegar lá com elegância.
 
-<!-- Adicione aqui o link da sua demo quando quiser:
 ## 🌐 Demo
 
-👉 [https://seu-projeto.vercel.app](https://seu-projeto.vercel.app)
--->
+👉 [https://todo-list-plum-mu.vercel.app](https://todo-list-plum-mu.vercel.app)
+
+Faça login com sua conta Google ou e-mail/senha e comece a organizar suas tarefas.
 
 ## 🚀 Funcionalidades
 
