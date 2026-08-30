@@ -17,6 +17,8 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
+import CheckCircleOutlineRoundedIcon from "@mui/icons-material/CheckCircleOutlineRounded";
+import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
 import DeleteOutlineRoundedIcon from "@mui/icons-material/DeleteOutlineRounded";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import ExpandMoreRoundedIcon from "@mui/icons-material/ExpandMoreRounded";
@@ -79,16 +81,18 @@ export default function TaskItem({ task, onToggle, onEdit, onDelete }) {
         <ListItemIcon sx={{ minWidth: 44, mt: 0.25 }}>
           <Checkbox
             edge="start"
+            size="small"
             checked={task.completed}
             onClick={(e) => e.stopPropagation()}
             onChange={onToggle}
             tabIndex={-1}
             disableRipple
             aria-label={task.completed ? "Reabrir tarefa" : "Concluir tarefa"}
+            icon={<CheckCircleOutlineRoundedIcon fontSize="small" />}
+            checkedIcon={<CheckCircleRoundedIcon fontSize="small" />}
             sx={{
               color: priority.color,
               "&.Mui-checked": { color: priority.color },
-              "& .MuiSvgIcon-root": { borderRadius: "50%", border: `1.5px solid ${priority.color}` },
             }}
           />
         </ListItemIcon>
